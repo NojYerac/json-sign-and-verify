@@ -1,0 +1,19 @@
+{
+  "name": "json-sign-and-verify",
+  "version": "1.0.0",
+  "description": "module to sign and verify a json string",
+  "main": "jssign.js",
+  "scripts": {
+    "test": "mocha -R spec *.spec.js"
+  },
+  "author": "Noj Yerac <noj.yerac@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "~3.10.1",
+    "node-rsa": "~0.2.26"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*"
+  }
+}
