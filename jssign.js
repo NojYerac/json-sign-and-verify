@@ -6,8 +6,8 @@ module.exports = JsSigner;
  * Returns a new JsSigner object
  * @param {object} config supply the private or public key with format:
  *                        {
- *                          privateKey: [PrivateKey] key for signing and verifing
- *                          publicKey: [PublicKey] key for verifing only
+ *                          privateKey: {string} private key for signing and verifing
+ *                          publicKey: {string} key for verifing only
  *                        }
  */
 function JsSigner(config) {
@@ -37,8 +37,13 @@ function JsSigner(config) {
    * @return {object}      the signed JSON object
    */
   function signObj(j) {
-    var json = _.extend({}, j);
-    if (_.isNull(self.privateKey)) throw new Error('No private key');
+    if (_.isNull(self.privateKey)) {
+      throw new Error('No private key');
+    }
+    var json = {};
+    Object.keys(j).sort().forEach(k => {
+      json[k] = j[k];
+    });
     var jsonString = JSON.stringify(json);
     json.__jssign_signature = self.privateKey.sign(jsonString, 'base64', 'utf-8');
     return json;
@@ -50,9 +55,15 @@ function JsSigner(config) {
    * @return {boolean}     true if the signature is valid
    */
   function verifyObj(j) {
-    var json = _.extend({}, j);
-    var signature = json.__jssign_signature;
-    delete json.__jssign_signature;
+    if (_.isNull(self.publicKey)) {
+      throw new Error('No public key');
+    }
+    var json = {};
+    var signature = j.__jssign_signature;
+    Object.keys(j).sort().forEach(k => {
+      if (k === "__jssign_signature") {return;}
+      json[k] = j[k];
+    });
     var jsonString = JSON.stringify(json);
     return self.publicKey.verify(jsonString, signature, 'utf-8', 'base64');
   }
@@ -63,7 +74,9 @@ function JsSigner(config) {
    * @return {string}        the signed string
    */
   function signString(string) {
-    if (_.isNull(self.privateKey)) throw new Error('No private key');
+    if (_.isNull(self.privateKey)) {
+      throw new Error('No private key');
+    }
     return `${string}:${self.privateKey.sign(string, 'base64')}`;
   }
 
@@ -73,6 +86,9 @@ function JsSigner(config) {
    * @return {boolean}             true if the signature is valid
    */
   function verifyString(signedString) {
+    if (_.isNull(self.publicKey)) {
+      throw new Error('No public key');
+    }
     var index = signedString.lastIndexOf(':');
     var string = signedString.slice(0, index),
       signature = signedString.slice(index + 1);

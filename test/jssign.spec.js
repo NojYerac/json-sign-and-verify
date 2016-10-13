@@ -52,6 +52,8 @@ describe('JsSigner class', function() {
 
   describe('verifyObj method', function() {
     it('should verify the signature', function() {
+      delete signedTestObj.foo;
+      signedTestObj.foo = "bar";
       var verified = jsSigner.verifyObj(JSON.parse(JSON.stringify(signedTestObj)));
       verified.should.equal(true);
     });
@@ -72,7 +74,7 @@ describe('JsSigner class', function() {
     });
   });
 
-  describe('signString method', function() {
+  describe('verifyString method', function() {
     it('should verify the signed testString', function() {
       var verified = jsSigner.verifyString(signedTestString);
       verified.should.equal(true);
