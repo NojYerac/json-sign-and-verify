@@ -14,7 +14,7 @@ describe('JsSigner class', function() {
   before(function(done) {
     var config = {};
     var priv = new Promise(function(resolve, reject) {
-      fs.readFile('./priv.pem', function(error, key) {
+      fs.readFile(__dirname + '/priv.pem', function(error, key) {
         if (error) return reject(error);
         config.privateKey = key.toString();
         resolve(config.privateKey);
@@ -22,7 +22,7 @@ describe('JsSigner class', function() {
     });
 
     var pub = new Promise(function(resolve, reject) {
-      fs.readFile('./pub.pem', function(error, key) {
+      fs.readFile(__dirname + '/pub.pem', function(error, key) {
         if (error) return reject(error);
         config.publicKey = key.toString();
         resolve(config.publicKey);

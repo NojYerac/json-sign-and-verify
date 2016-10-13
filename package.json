@@ -1,16 +1,26 @@
 {
   "name": "json-sign-and-verify",
   "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NojYerac/json-string-and-verify.git"
+  },
   "description": "module to sign and verify a json string",
   "main": "jssign.js",
+  "files": [
+    "jssign.js"
+  ],
   "scripts": {
-    "test": "mocha -R spec *.spec.js"
+    "test": "mocha test"
   },
-  "author": "Noj Yerac <noj.yerac@gmail.com>",
-  "license": "ISC",
+  "author": {
+    "name": "Jon Carey",
+    "email": "noj.yerac@gmail.com"
+  },
+  "license": "MIT",
   "dependencies": {
-    "lodash": "~3.10.1",
-    "node-rsa": "~0.2.26"
+    "lodash": "~3.*",
+    "node-rsa": "~0.2.*"
   },
   "devDependencies": {
     "mocha": "*",
